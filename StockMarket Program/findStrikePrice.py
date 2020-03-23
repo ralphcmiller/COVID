@@ -28,4 +28,6 @@ else:
     r = requests.get('https://finance.yahoo.com/quote/SPY/options?p=SPY')
     soup = bs4.BeautifulSoup(r.text,"lxml")
     optionPrice = soup.find_all('td',{'class': 'data-col3 Ta(end) Pstart(7px)'})[counter].text
+    percentCng = soup.find_all('td',{'class': 'data-col7 Ta(end) Pstart(7px)'})[counter].find('span').text
     print (optionPrice)
+    print (percentCng)
