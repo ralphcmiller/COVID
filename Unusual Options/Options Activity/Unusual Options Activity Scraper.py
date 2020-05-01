@@ -27,31 +27,18 @@ tickerArray = []
 sortedArrayPut = []
 sortedArrayCall = []
 sortedTickerArray = []
-ticker = input('what ticker do you want to look at? \n')
+Continue = True
+ticker = 0
+
+
 def getTicker(): #puts all tickers into an array then sorts the duplicates to return a list of all tickers in the csv
     with open('options_activity.csv', 'r') as csv_file:
         csv_reader = csv.reader(csv_file)    
         for line in csv_reader:
             tickerArray.append(line[0])
-        size = len(tickerArray) -1
-        counter = size    
-        while counter > 0:
-            sortTicker = tickerArray[counter]
-            tickerArraySize = len(tickerArray) - 1
-            while tickerArraySize > 0:
-                if tickerArray[tickerArraySize] == sortTicker:
-                    tickerArraySize -= 1
-                
-                else:
-                    sortedTickerArray.append
-                    tickerArraySize -= 1
-            counter -= 1
-                    
-            
-            
-
-
-
+    tickerArray.pop(0)
+    tickerArray.pop(len(tickerArray) - 1)
+    
 def getArray(): #takes the csv file and puts the chosen ticker into an array
     with open('options_activity.csv', 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
@@ -60,8 +47,7 @@ def getArray(): #takes the csv file and puts the chosen ticker into an array
             
                 #print (line)
                 results.append(line)
-
-
+                
 def C2P_ratio(): #sorts the array and calculates the Call to Put ratio on the ticker.
     
     size = len(results) -1
@@ -79,5 +65,13 @@ def C2P_ratio(): #sorts the array and calculates the Call to Put ratio on the ti
     print ('The call to put ratio for ' + ticker + ' = ' + str(round(c2p, 2)))
 
 getTicker()
-getArray()
-C2P_ratio()
+sortedTickerArray = sorted(list(set(tickerArray)))  
+print (sortedTickerArray)
+
+while Continue == True:
+    ticker = input('what ticker do you want to look at? \n')
+    getArray()
+    C2P_ratio()
+    want2Continue = input('do you want to continue? (y:n) \n')
+    if want2Continue == 'n':
+        Continue = False 
