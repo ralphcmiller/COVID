@@ -15,6 +15,16 @@ Created on Sat Apr 25 11:57:21 2020
     you must then rename the file to 'options_activity' for the program to handle the file correctly.
     
 """
+
+import subprocess
+import sys
+
+def install():
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "tabulate"])
+package = "tabulate"
+install()
+
+from tabulate import tabulate
 import csv
 counter = 0
 size = 0
@@ -27,9 +37,15 @@ tickerArray = []
 sortedArrayPut = []
 sortedArrayCall = []
 sortedTickerArray = []
+csvArray = []
 Continue = True
 ticker = 0
 
+def getCSVArray():
+    with open('options_activity.csv', 'r') as csv_file:
+        csv_reader = csv.reader(csv_file)    
+        for line in csv_reader:
+            csvArray.append(line)
 
 def getTicker(): #puts all tickers into an array then sorts the duplicates to return a list of all tickers in the csv
     with open('options_activity.csv', 'r') as csv_file:
@@ -63,7 +79,7 @@ def C2P_ratio(): #sorts the array and calculates the Call to Put ratio on the ti
     
     c2p = len(sortedArrayCall)/len(sortedArrayPut)
     print ('The call to put ratio for ' + ticker + ' = ' + str(round(c2p, 2)))
-
+getCSVArray()
 getTicker()
 sortedTickerArray = sorted(list(set(tickerArray)))  
 print (sortedTickerArray)
@@ -72,6 +88,8 @@ while Continue == True:
     ticker = input('what ticker do you want to look at? \n')
     getArray()
     C2P_ratio()
+    headers = csvArray[0]
+    print (tabulate(results, headers=headers, tablefmt = "fancy_grid"))
     want2Continue = input('do you want to continue? (y:n) \n')
     if want2Continue == 'n':
         Continue = False 
