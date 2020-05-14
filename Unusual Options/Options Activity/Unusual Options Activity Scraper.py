@@ -68,7 +68,7 @@ def C2P_ratio(): #sorts the array and calculates the Call to Put ratio on the ti
     
     size = len(results) -1
     counter = size
-    while counter > 0:
+    while counter >= 0:
         sort = results[counter]
         if sort [2] == ('Put'):
             sortedArrayPut.append(sort)
@@ -76,20 +76,39 @@ def C2P_ratio(): #sorts the array and calculates the Call to Put ratio on the ti
         else:
             sortedArrayCall.append(sort)
             counter -= 1
+    if len(sortedArrayPut) == 0:
+        print ('There are no Puts on this Ticker. fuck')
+    else :
+        c2p = len(sortedArrayCall)/len(sortedArrayPut)    
+        print ('The call to put ratio for ' + ticker + ' = ' + str(round(c2p, 2)))
+#def sort_CP:
+ #   counter = len(sortedArrayPut) - 1
     
-    c2p = len(sortedArrayCall)/len(sortedArrayPut)
-    print ('The call to put ratio for ' + ticker + ' = ' + str(round(c2p, 2)))
-getCSVArray()
-getTicker()
-sortedTickerArray = sorted(list(set(tickerArray)))  
-print (sortedTickerArray)
+ #   while counter > 0:
+        
 
 while Continue == True:
-    ticker = input('what ticker do you want to look at? \n')
+    results = [] 
+    tickerArray = []
+    sortedArrayPut = []
+    sortedArrayCall = []
+    sortedTickerArray = []
+    csvArray = []
+    results = []
+    getCSVArray()
+    getTicker()
+    sortedTickerArray = sorted(list(set(tickerArray)))  
+    print (sortedTickerArray)
+
+    
+    
+    ticker = input('what ticker do you want to look at? \n').upper()
     getArray()
     C2P_ratio()
     headers = csvArray[0]
-    print (tabulate(results, headers=headers, tablefmt = "fancy_grid"))
+##    print (tabulate(results, headers=headers, tablefmt = "fancy_grid")) ## jumbled grid
+    print (tabulate(sortedArrayPut, headers=headers, tablefmt = "fancy_grid"))
+    print (tabulate(sortedArrayCall, headers=headers, tablefmt = "fancy_grid"))
     want2Continue = input('do you want to continue? (y:n) \n')
     if want2Continue == 'n':
         Continue = False 
